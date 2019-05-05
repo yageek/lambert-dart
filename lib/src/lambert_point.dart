@@ -21,31 +21,30 @@ class Point {
 
   /// Returns a new [Point] converted
   /// in the specified [Zone]
-  lambertPoint.Point convert(lambertZone.Zone zone){
-
-    if(zone == lambertZone.Zone.L93){
-      return lambertToGeographic(this,zone,lonIERSMeridian,eWGS84,defaultEPS);
+  lambertPoint.Point convert(lambertZone.Zone zone) {
+    if (zone == lambertZone.Zone.L93) {
+      return lambertToGeographic(
+          this, zone, lonIERSMeridian, eWGS84, defaultEPS);
     } else {
+      lambertPoint.Point point = lambertToGeographic(
+          this, zone, lonParisMeridian, eClarkIGN, defaultEPS);
+      point = geographicToCartesian(
+          point.x, point.y, point.z, aClarkIGN, eClarkIGN);
 
-      lambertPoint.Point point  = lambertToGeographic(this,zone,lonParisMeridian,eClarkIGN,defaultEPS);
-      point = geographicToCartesian(point.x,point.y,point.z,aClarkIGN,eClarkIGN);
+      point.x -= 168;
+      point.y -= 60;
+      point.z += 320;
 
-      point.x-= 168;
-      point.y-= 60;
-      point.z+= 320;
-
-
-      return cartesianToGeographic(point, lonGreenwichMeridian, aWGS84,eWGS84,defaultEPS);
-
+      return cartesianToGeographic(
+          point, lonGreenwichMeridian, aWGS84, eWGS84, defaultEPS);
     }
   }
 
   /// Converts to Degree
   lambertPoint.Point degree() {
+    double factor = 180.0 / pi;
 
-    double factor = 180.0/PI;
-
-    return new lambertPoint.Point(this.x * factor, this.y * factor, this.z * factor);
+    return new lambertPoint.Point(
+        this.x * factor, this.y * factor, this.z * factor);
   }
 }
-

@@ -3,7 +3,7 @@
 # lambert-dart
 lambert-dart is a crate helping to convert Lambert coordinates to WGS84.
 
-# Usage
+## Usage
 
 ```dart
 import 'package:lambert/lambert.dart' as lambert;
