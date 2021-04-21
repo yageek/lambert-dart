@@ -1,11 +1,11 @@
 name: lambert
 description: Lambert coordinates convertion package
-version: 1.0.0
+version: 2.0.0
 author: Yannick Heinrich <yannick.heinrich@gmail.com>
 homepage: https://github.com/yageek/lambert-dart
 
 environment:
-  sdk: '>=2.0.0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 dev_dependencies:
   test: ^1.16.8
