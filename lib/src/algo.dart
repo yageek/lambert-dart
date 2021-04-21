@@ -2,7 +2,7 @@ library lambert.algo;
 
 import 'dart:math';
 import 'dart:core';
-import 'point.dart';
+import '../lambert.dart';
 import 'constants.dart';
 
 double latitudeISOFromLatitude(double lat, double e) {
@@ -31,8 +31,8 @@ double latitudeFromLatitudeISO(double lat_iso, double e, double eps) {
   return phi_i;
 }
 
-Point lambertToGeographic(Point org, Zone zone,
-    double lon_merid, double e, double eps) {
+Point lambertToGeographic(
+    Point org, Zone zone, double lon_merid, double e, double eps) {
   var n = N(zone);
   var c = C(zone);
   var x_s = Xs(zone);
