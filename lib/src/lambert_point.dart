@@ -12,16 +12,12 @@ class Point {
   double y;
   double z;
 
-  Point(double x, double y, double z) {
-    // There's a better way to do this, stay tuned.
-    this.x = x;
-    this.y = y;
-    this.z = z;
-  }
+  /// Default initializer
+  Point(this.x, this.y, this.z);
 
   /// Returns a new [Point] converted
   /// in the specified [Zone]
-  lambertPoint.Point convert(lambertZone.Zone zone) {
+  Point convert(lambertZone.Zone zone) {
     if (zone == lambertZone.Zone.L93) {
       return lambertToGeographic(
           this, zone, lonIERSMeridian, eWGS84, defaultEPS);
@@ -41,7 +37,7 @@ class Point {
   }
 
   /// Converts to Degree
-  lambertPoint.Point degree() {
+  Point degree() {
     double factor = 180.0 / pi;
 
     return new lambertPoint.Point(
