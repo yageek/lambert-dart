@@ -2,8 +2,8 @@ library lambert.algo;
 
 import 'dart:math';
 import 'dart:core';
-import 'lambert_point.dart' as pt;
-import 'lambert_zone.dart' as lambertZone;
+import 'point.dart';
+import 'constants.dart';
 
 double latitudeISOFromLatitude(double lat, double e) {
   return log(tan(pi / 4 + lat / 2) *
@@ -31,17 +31,17 @@ double latitudeFromLatitudeISO(double lat_iso, double e, double eps) {
   return phi_i;
 }
 
-pt.Point lambertToGeographic(pt.Point org, lambertZone.Zone zone,
+Point lambertToGeographic(Point org, Zone zone,
     double lon_merid, double e, double eps) {
-  double n = lambertZone.N(zone);
-  double C = lambertZone.C(zone);
-  double x_s = lambertZone.Xs(zone);
-  double y_s = lambertZone.Ys(zone);
+  var n = N(zone);
+  var c = C(zone);
+  var x_s = Xs(zone);
+  var y_s = Ys(zone);
 
-  double x = org.x;
-  double y = org.y;
+  var x = org.x;
+  var y = org.y;
 
-  double lon, gamma, R, lat_iso;
+  var lon, gamma, R, lat_iso;
 
   R = sqrt((x - x_s) * (x - x_s) + (y - y_s) * (y - y_s));
 
@@ -49,22 +49,22 @@ pt.Point lambertToGeographic(pt.Point org, lambertZone.Zone zone,
 
   lon = lon_merid + gamma / n;
 
-  lat_iso = -1 / n * log((R / C).abs());
+  lat_iso = -1 / n * log((R / c).abs());
 
-  double lat = latitudeFromLatitudeISO(lat_iso, e, eps);
+  var lat = latitudeFromLatitudeISO(lat_iso, e, eps);
 
-  return new pt.Point(lon, lat, org.z);
+  return Point(lon, lat, org.z);
 }
 
 double lambertNormal(double lat, double a, double e) {
   return a / sqrt(1 - e * e * sin(lat) * sin(lat));
 }
 
-pt.Point geographicToCartesian(
+Point geographicToCartesian(
     double lon, double lat, double he, double a, double e) {
   double N = lambertNormal(lat, a, e);
 
-  pt.Point point = new pt.Point(0.0, 0.0, 0.0);
+  Point point = Point(0.0, 0.0, 0.0);
   point.x = (N + he) * cos(lat) * cos(lon);
 
   point.y = (N + he) * cos(lat) * sin(lon);
@@ -74,15 +74,15 @@ pt.Point geographicToCartesian(
   return point;
 }
 
-pt.Point cartesianToGeographic(
-    pt.Point org, double meridien, double a, double e, double eps) {
-  double x = org.x, y = org.y, z = org.z;
+Point cartesianToGeographic(
+    Point org, double meridien, double a, double e, double eps) {
+  var x = org.x, y = org.y, z = org.z;
 
-  double lon = meridien + atan(y / x);
+  var lon = meridien + atan(y / x);
 
-  double module = sqrt(x * x + y * y);
+  var module = sqrt(x * x + y * y);
 
-  double phi_0 =
+  var phi_0 =
       atan(z / (module * (1 - (a * e * e) / sqrt(x * x + y * y + z * z))));
   double phi_i = atan(z /
       module /
@@ -110,5 +110,5 @@ pt.Point cartesianToGeographic(
   double he =
       module / cos(phi_i) - a / sqrt(1 - e * e * sin(phi_i) * sin(phi_i));
 
-  return new pt.Point(lon, phi_i, he);
+  return Point(lon, phi_i, he);
 }

@@ -1,10 +1,13 @@
 library lambert.point;
 
-import "lambert_zone.dart" as lambertZone;
-import "lambert_point.dart" as lambertPoint;
-import "lambert_algo.dart";
-import "lambert_constants.dart";
+import 'algo.dart';
+import 'constants.dart';
 import "dart:math";
+
+/// The Lambert zone identifier
+enum Zone {
+  I, II, III, IV, IIe, L93
+}
 
 /// Point represents point in space
 class Point {
@@ -17,12 +20,12 @@ class Point {
 
   /// Returns a new [Point] converted
   /// in the specified [Zone]
-  Point convert(lambertZone.Zone zone) {
-    if (zone == lambertZone.Zone.L93) {
+  Point convert(Zone zone) {
+    if (zone == Zone.L93) {
       return lambertToGeographic(
           this, zone, lonIERSMeridian, eWGS84, defaultEPS);
     } else {
-      lambertPoint.Point point = lambertToGeographic(
+      var point = lambertToGeographic(
           this, zone, lonParisMeridian, eClarkIGN, defaultEPS);
       point = geographicToCartesian(
           point.x, point.y, point.z, aClarkIGN, eClarkIGN);
@@ -40,7 +43,7 @@ class Point {
   Point degree() {
     double factor = 180.0 / pi;
 
-    return new lambertPoint.Point(
+    return Point(
         this.x * factor, this.y * factor, this.z * factor);
   }
 }

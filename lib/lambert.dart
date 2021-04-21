@@ -6,5 +6,4 @@
 /// This is an awesome library. More dartdocs go here.
 library lambert;
 
-export 'src/lambert_zone.dart';
-export 'src/lambert_point.dart';
+export 'src/point.dart';
